@@ -53,20 +53,11 @@ public class Directory implements FileEntity, Serializable {
     }
 
 
-    public Boolean create(boolean isDirectory, String name) {
+    public Boolean create(FileEntity f) {
         if (this.containsChild(name)) {
             return false;
         }
-
-        FileEntity newFileEntity;
-
-        if (isDirectory){
-            newFileEntity = new Directory(name, this);
-        }else{
-            newFileEntity = new File(name, this);
-        }
-
-        return childes.add(newFileEntity);
+        return childes.add(f);
     }
 
     private Boolean containsChild(String childName) {

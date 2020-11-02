@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * @author Jorge Báez
  */
-class File implements FileEntity, Serializable {
+public class File implements FileEntity, Serializable {
     private static final long serialVersionUID = 1L;
 
     private String name;

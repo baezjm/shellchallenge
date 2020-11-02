@@ -2,6 +2,7 @@ package commands.impl;
 
 import commands.Command;
 import filesystem.FileSystem;
+import filesystem.File;
 
 import static java.util.Objects.isNull;
 
@@ -19,7 +20,7 @@ public class TouchCommand implements Command {
     }
 
     public String execute(FileSystem fs) {
-        Boolean success = fs.getCurrent().create(Boolean.FALSE ,argument);
+        Boolean success = fs.getCurrent().create(new File(argument,fs.getCurrent()));
         return (success) ? "" : "File already exists \n";
     }
 }

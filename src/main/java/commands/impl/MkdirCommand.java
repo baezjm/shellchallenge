@@ -1,6 +1,7 @@
 package commands.impl;
 
 import commands.Command;
+import filesystem.Directory;
 import filesystem.FileSystem;
 
 import static java.util.Objects.isNull;
@@ -19,7 +20,7 @@ public class MkdirCommand implements Command {
 
     @Override
     public String execute(FileSystem fs) {
-        Boolean success = fs.getCurrent().create(Boolean.TRUE,argument);
+        Boolean success = fs.getCurrent().create(new Directory(argument, fs.getCurrent()));
         return (success) ? "" : "Directory already exists \n";
     }
 }

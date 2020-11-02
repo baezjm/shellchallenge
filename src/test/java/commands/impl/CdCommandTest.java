@@ -18,8 +18,8 @@ public class CdCommandTest {
     @Test
     public void test_ok_command() {
         FileSystem fs = new FileSystem(new Directory("root", null));
-        fs.getCurrent().create(true, "test1");
-        fs.getCurrent().create(true, "test2");
+        fs.getCurrent().create(new Directory("test1",fs.getCurrent()));
+        fs.getCurrent().create(new Directory("test2",fs.getCurrent()));
 
 
         CdCommand command = new CdCommand("test1");
@@ -32,8 +32,8 @@ public class CdCommandTest {
     @Test
     public void test_directory_not_found() {
         FileSystem fs = new FileSystem(new Directory("root", null));
-        fs.getCurrent().create(true, "test1");
-        fs.getCurrent().create(true, "test2");
+        fs.getCurrent().create(new Directory("test1",fs.getCurrent()));
+        fs.getCurrent().create(new Directory("test2",fs.getCurrent()));
 
 
         CdCommand command = new CdCommand("test11");
@@ -48,10 +48,10 @@ public class CdCommandTest {
     @Test
     public void test_ok_command_full_path() {
         FileSystem fs = new FileSystem(new Directory("root", null));
-        fs.getCurrent().create(true, "test1");
+        fs.getCurrent().create(new Directory("test1",fs.getCurrent()));
 
         Directory d = (Directory) fs.getCurrent().getSubDir("test1");
-        d.create(true, "test2");
+        d.create(new Directory("test2",fs.getCurrent()));
 
 
         CdCommand command = new CdCommand("test1/test2");
@@ -65,10 +65,10 @@ public class CdCommandTest {
     @Test
     public void test_ok_command_up_when_current_is_root() {
         FileSystem fs = new FileSystem(new Directory("root", null));
-        fs.getCurrent().create(true, "test1");
+        fs.getCurrent().create(new Directory("test1",fs.getCurrent()));
 
         Directory d = (Directory) fs.getCurrent().getSubDir("test1");
-        d.create(true, "test2");
+        d.create(new Directory("test2",fs.getCurrent()));
 
 
         CdCommand command = new CdCommand("..");
