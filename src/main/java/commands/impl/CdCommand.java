@@ -4,7 +4,6 @@ import commands.Command;
 import filesystem.Directory;
 import filesystem.FileSystem;
 
-import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 /**
