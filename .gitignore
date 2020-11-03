@@ -4,6 +4,7 @@ build/
 .vscode/
 bin/
 */target/**
+target/**
 
 ### STS ###
 .apt_generated
