@@ -10,7 +10,12 @@ import static java.util.Objects.nonNull;
  * @author Jorge Báez
  */
 public class LsCommand implements Command {
+    private static final String R_PARAM = "-r";
+
     private String param;
+
+    public LsCommand() {
+    }
 
     public LsCommand(String param) {
         this.param = param;
@@ -19,12 +24,12 @@ public class LsCommand implements Command {
     @Override
     public String execute(FileSystem fs) {
         if (nonNull(this.param)) {
-            if ("-r".equals(this.param)) {
+            if (R_PARAM.equals(this.param)) {
                 return fs.getCurrent().printChildes(true);
             }
 
             String[] dirNames = this.param.split("/");
-            Directory dir = (Directory) fs.getCurrent().getSubDir(dirNames);
+            Directory dir = fs.getCurrent().getSubDir(dirNames);
 
             if (nonNull(dir)) {
                 return dir.printChildes(false);

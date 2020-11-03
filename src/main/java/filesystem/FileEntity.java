@@ -9,6 +9,4 @@ public interface FileEntity {
     Directory getParent();
 
     boolean isDirectory();
-
-    FileEntity getSubDir(String dirName);
 }

@@ -50,7 +50,7 @@ public class CdCommandTest {
         FileSystem fs = new FileSystem(new Directory("root", null));
         fs.getCurrent().create(new Directory("test1",fs.getCurrent()));
 
-        Directory d = (Directory) fs.getCurrent().getSubDir("test1");
+        Directory d = fs.getCurrent().getSubDir("test1");
         d.create(new Directory("test2",fs.getCurrent()));
 
 

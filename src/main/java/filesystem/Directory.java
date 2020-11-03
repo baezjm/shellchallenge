@@ -80,14 +80,14 @@ public class Directory implements FileEntity, Serializable {
         return "/" + String.join("/", dirs);
     }
 
-    public FileEntity getSubDir(String[] dirNames) {
-        FileEntity current = this;
+    public Directory getSubDir(String[] dirNames) {
+        Directory current = this;
 
         for (String dirName : dirNames) {
 
-            FileEntity child = current.getSubDir(dirName);
+            Directory child = current.getSubDir(dirName);
 
-            if (isNull(child) || !child.isDirectory()) {
+            if (isNull(child)) {
                 throw new RuntimeException("Directory not found");
             } else {
                 current = child;
@@ -96,9 +96,11 @@ public class Directory implements FileEntity, Serializable {
         return current;
     }
 
-    @Override
-    public FileEntity getSubDir(String dirName) {
-        return this.childes.stream().filter(child -> child.getName().equals(dirName)).findFirst().orElse(null);
+    public Directory getSubDir(String dirName) {
+        FileEntity directory = this.childes.stream()
+                .filter(child -> child.getName().equals(dirName) && child.isDirectory())
+                .findFirst().orElse(null);
+        return (Directory) directory;
     }
 
     @Override

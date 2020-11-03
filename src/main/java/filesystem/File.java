@@ -27,11 +27,6 @@ public class File implements FileEntity, Serializable {
     }
 
     @Override
-    public FileEntity getSubDir(String dirName) {
-        return null;
-    }
-
-    @Override
     public String getName() {
         return this.name;
     }
