@@ -20,7 +20,7 @@ public class TouchCommand implements Command {
     }
 
     public String execute(FileSystem fs) {
-        Boolean success = fs.getCurrent().create(new File(argument,fs.getCurrent()));
+        Boolean success = fs.getCurrent().create(new File(argument,fs.getCurrent(),"content"));
         return (success) ? "" : "File already exists \n";
     }
 }

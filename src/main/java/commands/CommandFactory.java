@@ -1,9 +1,11 @@
 package commands;
 
+import commands.impl.CatCommand;
 import commands.impl.CdCommand;
 import commands.impl.LsCommand;
 import commands.impl.MkdirCommand;
 import commands.impl.PwdCommand;
+import commands.impl.RmCommand;
 import commands.impl.TouchCommand;
 import exception.EmptyCommandException;
 
@@ -20,7 +22,9 @@ public enum CommandFactory {
     LS(LsCommand::new),
     CD(CdCommand::new),
     MKDIR(MkdirCommand::new),
-    TOUCH(TouchCommand::new);
+    RM(RmCommand::new),
+    TOUCH(TouchCommand::new),
+    CAT(CatCommand::new);
 
     private Function<String, Command> creator;
 

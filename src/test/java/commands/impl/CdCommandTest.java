@@ -3,8 +3,6 @@ package commands.impl;
 import filesystem.Directory;
 import filesystem.FileSystem;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -12,7 +10,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 /**
  * @author Jorge Báez
  */
-@RunWith(MockitoJUnitRunner.class)
 public class CdCommandTest {
 
     @Test

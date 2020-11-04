@@ -2,8 +2,10 @@ package commands.impl;
 
 import commands.Command;
 import filesystem.Directory;
+import filesystem.FileEntity;
 import filesystem.FileSystem;
 
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 /**
@@ -23,22 +25,31 @@ public class LsCommand implements Command {
 
     @Override
     public String execute(FileSystem fs) {
-        if (nonNull(this.param)) {
-            if (R_PARAM.equals(this.param)) {
-                return fs.getCurrent().printChildes(true);
-            }
 
-            String[] dirNames = this.param.split("/");
-            Directory dir = fs.getCurrent().getSubDir(dirNames);
+        if (isNull(param)) return getChildNames(fs.getCurrent());
 
-            if (nonNull(dir)) {
-                return dir.printChildes(false);
-            } else {
-                return "Directory not found";
-            }
-
-        } else {
-            return fs.getCurrent().printChildes(false);
+        if (R_PARAM.equals(this.param)) {
+            return fs.getCurrent().printAll();
         }
+
+        String[] dirNames = this.param.split("/");
+        Directory directory = fs.getCurrent().getSubDir(dirNames);
+
+        if (nonNull(directory)) {
+            return getChildNames(directory);
+        } else {
+            return "Directory not found";
+        }
+    }
+
+    /**
+     *
+     * @param directory the current directory
+     * @return a String whit all child's names, with a '\n' separator
+     */
+    private String getChildNames(Directory directory){
+        StringBuilder sb = new StringBuilder();
+        directory.getChildes().forEach(c -> sb.append(c.getName()).append("\n"));
+        return sb.toString();
     }
 }

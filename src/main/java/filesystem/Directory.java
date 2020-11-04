@@ -24,29 +24,29 @@ public class Directory implements FileEntity, Serializable {
         this.parent = parent;
     }
 
-    public String printChildes(Boolean recursive) {
+    public String printAll() {
         StringBuilder sb = new StringBuilder();
-        return this.printRecursive(recursive, sb);
+        return this.getAllNames(sb);
     }
 
-    private String printRecursive(Boolean recursive, StringBuilder sb) {
+    private String getAllNames(StringBuilder sb) {
         List<Directory> childDirsToPrint = new ArrayList<>();
 
-        if (recursive && !childes.isEmpty()) {
-            sb.append(this.getFullPath()).append("\n");
+        if (!childes.isEmpty()) {
+            sb.append(getPath()).append("\n");
         }
 
         // Print this directory
         for (FileEntity child : childes) {
             sb.append(child.getName()).append("\n");
 
-            if (recursive && child.isDirectory()) {
+            if (child.isDirectory()) {
                 childDirsToPrint.add((Directory) child);
             }
         }
 
         for (Directory dir : childDirsToPrint) {
-            dir.printRecursive(true, sb);
+            dir.getAllNames(sb);
         }
 
         return sb.toString();
@@ -64,20 +64,10 @@ public class Directory implements FileEntity, Serializable {
         return childes.stream().anyMatch(child -> child.getName().equals(childName));
     }
 
-    public String getFullPath() {
-        if (isNull(this.getParent())) {
-            return "/" + this.name;
-        }
-        List<String> dirs = new ArrayList<>();
-        Directory current = this;
+    public String getPath() {
+        if(null == parent) return "/" + name;
 
-        while (nonNull(current)) {
-            dirs.add(current.getName());
-            current = current.getParent();
-        }
-
-        Collections.reverse(dirs);
-        return "/" + String.join("/", dirs);
+        return parent.getPath() + "/" + name;
     }
 
     public Directory getSubDir(String[] dirNames) {
@@ -101,6 +91,21 @@ public class Directory implements FileEntity, Serializable {
                 .filter(child -> child.getName().equals(dirName) && child.isDirectory())
                 .findFirst().orElse(null);
         return (Directory) directory;
+    }
+
+    public File getFile(String dirName) {
+        FileEntity file = this.childes.stream()
+                .filter(child -> child.getName().equals(dirName) && !child.isDirectory())
+                .findFirst().orElse(null);
+        return (File) file;
+    }
+
+    public Boolean remove (String name){
+        return this.childes.removeIf(child -> child.getName().equals(name));
+    }
+
+    public List<FileEntity> getChildes() {
+        return childes;
     }
 
     @Override
