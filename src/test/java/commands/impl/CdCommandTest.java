@@ -4,6 +4,8 @@ import filesystem.Directory;
 import filesystem.FileSystem;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -47,7 +49,7 @@ public class CdCommandTest {
         FileSystem fs = new FileSystem(new Directory("root", null));
         fs.getCurrent().create(new Directory("test1",fs.getCurrent()));
 
-        Directory d = fs.getCurrent().getSubDir("test1");
+        Directory d = fs.getCurrent().getChildDirectory(Arrays.asList("test1"));
         d.create(new Directory("test2",fs.getCurrent()));
 
 
@@ -64,7 +66,7 @@ public class CdCommandTest {
         FileSystem fs = new FileSystem(new Directory("root", null));
         fs.getCurrent().create(new Directory("test1",fs.getCurrent()));
 
-        Directory d = (Directory) fs.getCurrent().getSubDir("test1");
+        Directory d = fs.getCurrent().getChildDirectory(Arrays.asList("test1"));
         d.create(new Directory("test2",fs.getCurrent()));
 
 

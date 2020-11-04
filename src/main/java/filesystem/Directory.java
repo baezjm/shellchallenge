@@ -2,11 +2,9 @@ package filesystem;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 
 /**
  * @author Jorge Báez
@@ -23,35 +21,6 @@ public class Directory implements FileEntity, Serializable {
         this.name = name;
         this.parent = parent;
     }
-
-    public String printAll() {
-        StringBuilder sb = new StringBuilder();
-        return this.getAllNames(sb);
-    }
-
-    private String getAllNames(StringBuilder sb) {
-        List<Directory> childDirsToPrint = new ArrayList<>();
-
-        if (!childes.isEmpty()) {
-            sb.append(getPath()).append("\n");
-        }
-
-        // Print this directory
-        for (FileEntity child : childes) {
-            sb.append(child.getName()).append("\n");
-
-            if (child.isDirectory()) {
-                childDirsToPrint.add((Directory) child);
-            }
-        }
-
-        for (Directory dir : childDirsToPrint) {
-            dir.getAllNames(sb);
-        }
-
-        return sb.toString();
-    }
-
 
     public Boolean create(FileEntity f) {
         if (this.containsChild(name)) {
@@ -70,12 +39,12 @@ public class Directory implements FileEntity, Serializable {
         return parent.getPath() + "/" + name;
     }
 
-    public Directory getSubDir(String[] dirNames) {
+    public Directory getChildDirectory(List<String> dirNames) {
         Directory current = this;
 
         for (String dirName : dirNames) {
 
-            Directory child = current.getSubDir(dirName);
+            Directory child = current.getChildDirectory(dirName);
 
             if (isNull(child)) {
                 throw new RuntimeException("Directory not found");
@@ -86,7 +55,7 @@ public class Directory implements FileEntity, Serializable {
         return current;
     }
 
-    public Directory getSubDir(String dirName) {
+    private Directory getChildDirectory(String dirName) {
         FileEntity directory = this.childes.stream()
                 .filter(child -> child.getName().equals(dirName) && child.isDirectory())
                 .findFirst().orElse(null);

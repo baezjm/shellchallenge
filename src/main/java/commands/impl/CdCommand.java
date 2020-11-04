@@ -4,6 +4,10 @@ import commands.Command;
 import filesystem.Directory;
 import filesystem.FileSystem;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import static java.util.Objects.nonNull;
 
 /**
@@ -13,21 +17,21 @@ public class CdCommand implements Command {
     private static final String PARENT = "..";
     private static final String ROOT = "root";
 
-    private String[] dirNames;
+    private List<String> dirNames;
 
     public CdCommand(String argument) {
-        this.dirNames = nonNull(argument) ? argument.split("/") : new String[]{""};
+        this.dirNames = nonNull(argument) ? Arrays.asList(argument.split("/")) : Collections.singletonList("");
     }
 
 
     @Override
     public String execute(FileSystem fs) {
-        if (PARENT.equals(this.dirNames[0])) {
+        if (PARENT.equals(this.dirNames.get(0))) {
             if (!ROOT.equals(fs.getCurrent().getName()) && fs.getCurrent().getParent() != null) {
                 fs.setCurrent(fs.getCurrent().getParent());
             }
         } else {
-            Directory dir = fs.getCurrent().getSubDir(dirNames);
+            Directory dir = fs.getCurrent().getChildDirectory(dirNames);
             if (nonNull(dir)) {
                 fs.setCurrent(dir);
             } else {
