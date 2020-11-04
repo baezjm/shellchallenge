@@ -33,12 +33,21 @@ public class Directory implements FileEntity, Serializable {
         return childes.stream().anyMatch(child -> child.getName().equals(childName));
     }
 
+    /**
+     * Retrieve a full path to this Directory
+     * @return a {@code String} representing a full path to this directory
+     */
     public String getPath() {
         if(null == parent) return "/" + name;
 
         return parent.getPath() + "/" + name;
     }
 
+    /**
+     * Retrieve a directory if exists. It's possible search a directory by name or path.
+     * @param dirNames path for the target directory
+     * @return a {@link Directory}
+     */
     public Directory getChildDirectory(List<String> dirNames) {
         Directory current = this;
 
@@ -55,6 +64,11 @@ public class Directory implements FileEntity, Serializable {
         return current;
     }
 
+    /**
+     * Retrieve a directory if exists. Search by name.
+     * @param dirName name of the directory
+     * @return a {@link Directory}
+     */
     private Directory getChildDirectory(String dirName) {
         FileEntity directory = this.childes.stream()
                 .filter(child -> child.getName().equals(dirName) && child.isDirectory())
@@ -62,6 +76,11 @@ public class Directory implements FileEntity, Serializable {
         return (Directory) directory;
     }
 
+    /**
+     * Retrieve a File if exists. Search by name.
+     * @param dirName name of the file
+     * @return a {@link File}
+     */
     public File getFile(String dirName) {
         FileEntity file = this.childes.stream()
                 .filter(child -> child.getName().equals(dirName) && !child.isDirectory())
@@ -69,6 +88,11 @@ public class Directory implements FileEntity, Serializable {
         return (File) file;
     }
 
+    /**
+     * Remove a directory or file, by name
+     * @param name of the target directory or file
+     * @return a {@code Boolean} indicating if the operation was successful
+     */
     public Boolean remove (String name){
         return this.childes.removeIf(child -> child.getName().equals(name));
     }

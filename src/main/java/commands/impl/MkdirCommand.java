@@ -18,6 +18,11 @@ public class MkdirCommand implements Command {
         this.argument = argument;
     }
 
+    /**
+     * Execute a mkdir command to create a new directory in the current directory.
+     * @param fs {@link FileSystem} when the command will create a directory.
+     * @return
+     */
     @Override
     public String execute(FileSystem fs) {
         Boolean success = fs.getCurrent().create(new Directory(argument, fs.getCurrent()));

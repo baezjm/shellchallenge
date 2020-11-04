@@ -23,7 +23,11 @@ public class CdCommand implements Command {
         this.dirNames = nonNull(argument) ? Arrays.asList(argument.split("/")) : Collections.singletonList("");
     }
 
-
+    /**
+     * Execute a cd command,
+     * @param fs a {@link FileSystem} to apply the command
+     * @return a {@code String} when is ok with blank, or an error.
+     */
     @Override
     public String execute(FileSystem fs) {
         if (PARENT.equals(this.dirNames.get(0))) {
